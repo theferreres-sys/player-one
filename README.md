@@ -44,6 +44,7 @@ Every figure is a published list price, in GBP, checked 3 September 2026.
 |`1` `2` `3` `4`  |The arcade buttons. Also clickable.  |
 |`Backspace` / `←`|Back — retraces the actual path taken|
 |`Esc` / `R`      |Restart, without counting as a player|
+
 Microsoft’s rule is quoted verbatim on screen: “On F SKUs smaller than F64, each user
 viewing Power BI content must have Pro, PPU, or an individual trial.”
 
