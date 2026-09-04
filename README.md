@@ -35,7 +35,7 @@ Open `index.html` full screen in any modern browser. It locks itself to 16:9 and
 scales to whatever display it is on, so the same page works on a phone, a laptop
 and the booth screen.
 
-- Buttons **1 / 2 / 3 / 4** are the arcade buttons.
+- The number keys stand in for the arcade buttons, one per answer on screen.
 - **Backspace** or **←** goes back a screen, **Esc** or **R** restarts.
 - A run resets itself after a period of inactivity that varies by screen, so a
   visitor who walks off mid-run does not leave their answers up for the next one.

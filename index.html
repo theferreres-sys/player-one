@@ -186,7 +186,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
     <!-- 0 ATTRACT -->
     <section class="scr live" id="s0" style="gap:24px">
       <p class="tiny">PLAYER <span id="pnum">148</span> READY</p>
-      <p class="title" style="font-size:54px">HOW MANY OF YOUR<br>COLLEAGUES CAN<br>OPEN A DASHBOARD?</p>
+      <p class="title" style="font-size:52px">HOW MANY OF YOUR<br>COLLEAGUES CAN<br>ANSWER THEIR<br>OWN QUESTIONS?</p>
       <hr class="rule">
       <p class="say" style="max-width:66ch">Two questions. Ninety seconds. You leave with your own number, what it costs you today, and how you compare with everyone who played.</p>
       <p class="md am blink">PRESS START</p>
@@ -212,8 +212,8 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
       <p class="tiny" id="dotsCap">THIS IS YOUR COMPANY</p>
       <div id="grid"></div>
       <p class="legend" id="legend" style="visibility:hidden">
-        <span><s style="background:#FFC93C"></s>CAN OPEN A DASHBOARD</span>
-        <span><s style="background:#191233"></s>CANNOT</span>
+        <span><s style="background:#FFC93C"></s>CAN GET TO THE DATA</span>
+        <span><s style="background:#191233"></s>HAVE TO ASK SOMEONE</span>
       </p>
       <p class="h" id="dotsLine" style="min-height:76px"></p>
       <p class="say" id="dotsRank" style="min-height:34px"></p>
@@ -224,7 +224,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
       <p class="tiny">WHO'S TELLING YOU THIS</p>
       <p class="title" style="font-size:56px">LIGHTDASH</p>
       <p class="say" style="max-width:80ch">Lightdash makes a company's data usable by everyone, not just the analysts.</p>
-      <p class="say dim" style="max-width:80ch">Your data team defines every number once, in your own dbt project. Everyone else opens a dashboard — or asks an <span class="am">AI agent in plain English</span>, in Slack or in Lightdash, and gets an answer built from those same definitions.</p>
+      <p class="say dim" style="max-width:80ch">Your data team defines every number once, in your own dbt project. Everyone else opens a dashboard — or asks an <span class="am">AI agent in plain English</span>, in Slack or in Lightdash, and gets an answer built from those same definitions. <span class="am">(AI agents come with the hosted plan.)</span></p>
       <p class="say dim" style="max-width:80ch">So "they wouldn't know how to use it" stops being a reason to keep them out.</p>
     </section>
 
@@ -260,7 +260,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
     <!-- 9 DOORS -->
     <section class="scr" id="s9">
       <p class="tiny">PEOPLE AT YOUR COMPANY LOCKED OUT</p>
-      <p class="bignum" id="locked">388</p>
+      <p class="bignum" id="locked">300</p>
       <p class="say dim" id="freeLine" style="max-width:90ch"></p>
       <div class="opts" id="doors"></div>
     </section>
@@ -275,7 +275,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
     <section class="scr" id="s11">
       <p class="title" style="color:#FF6E88;text-shadow:7px 7px 0 #4A1626">GAME OVER</p>
       <hr class="rule">
-      <p class="h" id="overLine">388 STILL CAN'T<br>SEE THE DATA</p>
+      <p class="h" id="overLine">300 STILL CAN'T<br>SEE THE DATA</p>
       <p class="sm" id="overNote"></p>
       <p class="tiny am blink">PLAYER <span id="pnext">149</span> READY</p>
     </section>
@@ -570,10 +570,10 @@ function runDots(){
     g.classList.add('dimmed');
     $('legend').style.visibility='visible';
     dotTimer2=setTimeout(function(){
-      $('dotsLine').innerHTML='ABOUT <span class="am">'+st.lit+'</span> OF THEM CAN<br>OPEN A DASHBOARD';
+      $('dotsLine').innerHTML='ABOUT <span class="am">'+st.lit+'</span> OF THEM CAN<br>GET TO THE DATA';
       $('dotsRank').innerHTML =
         'That is the industry average \u2014 <span class="am">'+AVG+'%</span> of staff, across 214 companies. '
-        + 'Which still leaves <span class="co">' + (st.size-st.lit) + '</span> of your colleagues who cannot.'
+        + 'The other <span class="co">' + (st.size-st.lit) + '</span> cannot open it, explore it, or build anything from it. They ask someone, and wait.'
         + '<br><span style="color:var(--faint)">Think that is wrong? Correct it on your phone in a minute.</span>';
       prompt('PRESS 1 TO CONTINUE');
     },900);
@@ -660,11 +660,11 @@ function buildCalc(){
 function buildDoors(){
   var locked = st.size - st.lit;
   $('locked').textContent = locked;
-  $('freeLine').textContent = 'The open-source version is free, self-hosted, and has unlimited users. You could give all '
-    + locked + ' of them access tonight without paying us anything.';
-  var free = {label:'TAKE IT HOME FREE',    hint:'Self-host it · unlimited users · no card', go:true};
-  var comm = {label:'JOIN THE COMMUNITY',   hint:'Data people in Slack, code on GitHub'};
-  var paid = {label:'HAVE US HOST IT',      hint:'Flat price, still unlimited users'};
+  $('freeLine').innerHTML = 'The open-source version is free, self-hosted and already has unlimited users \u2014 you could give all '
+    + locked + ' of them access tonight without paying us anything. <span class="am">What you pay us for is the AI agents</span>, so they can ask in plain English instead of learning SQL, and for not having to run it yourself.';
+  var free = {label:'TAKE IT HOME FREE',    hint:'Unlimited users \u00b7 you host it \u00b7 no AI agents', go:true};
+  var comm = {label:'JOIN THE COMMUNITY',   hint:'go.lightdash.com/community'};
+  var paid = {label:'HAVE US HOST IT',      hint:'We host it \u00b7 AI agents \u00b7 support'};
   tiles($('doors'), st.size>500 ? [paid,free,comm] : [free,comm,paid], false, function(){ go(10); });
 }
 
