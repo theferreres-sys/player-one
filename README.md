@@ -1,6 +1,6 @@
 # Player One — Big Data LDN booth
 
-An unstaffed booth for Lightdash. One person goes in at a time, answers three
+An unstaffed booth for Lightdash. One person goes in at a time, answers two
 questions on three arcade buttons, and walks out knowing how many of their own
 colleagues can open a dashboard — and what letting the rest in would cost on the
 tool they already pay for.
