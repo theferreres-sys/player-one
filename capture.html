@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Your result — Lightdash</title>
+<style>
+:root{
+  --void:#0A0713; --panel:#150F30; --line:#241C42; --rule:#3B3288;
+  --violet:#7262FF; --violet-lt:#A79BFF; --amber:#FFC93C; --green:#4FD8A0;
+  --ink:#EDEAF7; --dim:#8D86AE; --faint:#5C5678;
+  --sans:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--void)}
+body{font-family:var(--sans);color:var(--ink);line-height:1.55;
+     padding:28px 20px calc(40px + env(safe-area-inset-bottom));
+     max-width:520px;margin:0 auto;min-height:100vh}
+.brand{display:flex;align-items:center;gap:9px;margin-bottom:34px}
+.brand svg{width:22px;height:22px;display:block}
+.brand span{font-size:17px;font-weight:600;letter-spacing:-.01em}
+h1{font-size:27px;line-height:1.25;font-weight:600;letter-spacing:-.02em;margin-bottom:12px}
+p.sub{font-size:15.5px;color:var(--dim);margin-bottom:26px}
+.result{border:2px solid var(--rule);background:var(--panel);border-radius:2px;padding:18px 20px;margin-bottom:26px}
+.result .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet-lt);margin-bottom:8px}
+.result .v{font-size:15.5px;color:var(--ink)}
+.result .v b{color:var(--amber);font-weight:600}
+label{display:block;font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--dim);margin:0 0 7px}
+input,select{width:100%;font:inherit;font-size:16px;color:var(--ink);background:#0D0920;
+  border:2px solid var(--line);border-radius:2px;padding:14px 15px;margin-bottom:18px;appearance:none}
+input:focus,select:focus{outline:none;border-color:var(--violet)}
+input::placeholder{color:var(--faint)}
+select{background-image:linear-gradient(45deg,transparent 50%,var(--dim) 50%),linear-gradient(135deg,var(--dim) 50%,transparent 50%);
+  background-position:calc(100% - 20px) 22px,calc(100% - 14px) 22px;background-size:6px 6px;background-repeat:no-repeat}
+button{width:100%;font:inherit;font-size:16px;font-weight:600;color:#0A0713;background:var(--amber);
+  border:0;border-radius:2px;padding:17px;margin-top:6px;cursor:pointer}
+button:disabled{opacity:.5}
+.fine{font-size:12.5px;color:var(--faint);line-height:1.6;margin-top:20px}
+.nums{border:2px solid var(--line);border-radius:2px;padding:16px 16px 2px;margin-bottom:20px;background:#0C0819}
+.nums .hd{font-size:12px;letter-spacing:.13em;text-transform:uppercase;color:var(--violet-lt);margin-bottom:4px}
+.nums .note{font-size:12.5px;color:var(--faint);line-height:1.55;margin-bottom:14px}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pair label{margin-bottom:6px}
+.err{font-size:13.5px;color:#FF6E88;margin:-8px 0 16px}
+.done{text-align:center;padding:34px 0}
+.done .tick{width:56px;height:56px;border:3px solid var(--green);border-radius:50%;display:flex;
+  align-items:center;justify-content:center;margin:0 auto 20px;font-size:26px;color:var(--green)}
+.done h1{color:var(--green)}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="brand">
+  <svg viewBox="0 0 36 36" aria-hidden="true"><rect width="36" height="36" rx="3" fill="#7262FF"/><path d="M19.3562 13.5749H24.3836C25.212 13.5749 25.7269 14.4553 25.3105 15.1516L17.4298 28.4663C17.2327 28.7992 16.8745 28.9919 16.4984 28.9919C15.8133 28.9919 15.2939 28.3656 15.4551 27.6998L17.5193 19.181L19.3562 13.5749Z" fill="#fff"/><path d="M21.053 8.31946L19.2751 13.9905L17.4275 19.583H12.0814C11.4283 19.583 10.9239 19.0237 11.0095 18.3946L12.4507 7.90877C12.5228 7.38885 12.9822 7 13.5226 7H20.0081C20.7153 7 21.2332 7.65537 21.053 8.31946Z" fill="#fff"/></svg>
+  <span>Lightdash</span>
+</div>
+
+<main id="form">
+  <h1>Where should we send your result?</h1>
+  <p class="sub">Your real numbers, what letting everyone in would cost on the tool you named, and the benchmark from everyone who played today.</p>
+
+  <div class="result" id="resultBox" hidden>
+    <p class="k" id="resultK">Your run</p>
+    <p class="v" id="resultV"></p>
+  </div>
+
+  <form id="f" novalidate>
+    <label for="name">Name</label>
+    <input id="name" name="name" type="text" autocomplete="name" placeholder="Alex Fisher" required>
+
+    <label for="email">Work email</label>
+    <input id="email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="alex@company.com" required>
+
+    <label for="role">Job title</label>
+    <input id="role" name="role" type="text" autocomplete="organization-title" placeholder="Head of Data" required>
+
+    <div class="nums">
+      <p class="hd">Your numbers</p>
+      <p class="note">We estimated these from the two buttons you pressed. Correct them and your report uses the real figures.</p>
+      <div class="pair">
+        <div>
+          <label for="headcount">People</label>
+          <input id="headcount" type="number" inputmode="numeric" min="1" max="500000" placeholder="400">
+        </div>
+        <div>
+          <label for="seats">BI licences</label>
+          <input id="seats" type="number" inputmode="numeric" min="0" max="500000" placeholder="100">
+        </div>
+      </div>
+    </div>
+
+    <p class="err" id="err" hidden></p>
+    <button type="submit" id="send">Send me my result</button>
+  </form>
+
+  <p class="fine">One email with your result, and one when the show closes with the full benchmark. Unsubscribe in a click. We don't pass your details to anyone.</p>
+</main>
+
+<div class="done" id="done" hidden>
+  <div class="tick">&#10003;</div>
+  <h1>Saved.</h1>
+  <p class="sub" style="margin-top:10px">It's on its way. You can put your phone away — the screen in the booth already knows.</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+/* Same two values as the booth. The anon key is public by design;
+   row-level security in supabase.sql is what protects the data. */
+var CFG = {
+  SUPABASE_URL : 'https://jksvcxbguavwyoxuzhch.supabase.co',
+  SUPABASE_KEY : 'sb_publishable_0JZn5s4_hEDg-me3JExz_Q_i4iy8z07',
+  TABLE        : 'booth_sessions'
+};
+
+var $ = function(id){ return document.getElementById(id); };
+var session = null;
+
+function api(path, opts){
+  opts = opts || {};
+  opts.headers = Object.assign({
+    'apikey': CFG.SUPABASE_KEY,
+    'Authorization': 'Bearer ' + CFG.SUPABASE_KEY,
+    'Content-Type': 'application/json'
+  }, opts.headers || {});
+  return fetch(CFG.SUPABASE_URL + '/rest/v1/' + path, opts);
+}
+
+/* Only one person is ever in the booth, so "the live session" is
+   unambiguous — that is what makes this work without a code. */
+function findSession(){
+  if(!CFG.SUPABASE_URL) return;
+  api(CFG.TABLE+'?status=eq.live&select=id,player_no,headcount,seats&order=created_at.desc&limit=1', {})
+    .then(function(r){ return r.json(); })
+    .then(function(rows){
+      if(!rows || !rows.length) return;
+      session = rows[0];
+      var box = $('resultBox');
+      $('resultK').textContent = 'Player ' + session.player_no;
+      if(session.headcount && session.seats){
+        $('resultV').innerHTML = 'Of your ' + session.headcount + ' people, roughly <b>' +
+          session.seats + '</b> can open a dashboard.';
+        $('headcount').value = session.headcount;
+        $('seats').value = session.seats;
+      } else {
+        $('resultV').textContent = 'We’ll attach your answers from the booth.';
+      }
+      box.hidden = false;
+    })
+    .catch(function(){});
+}
+findSession();
+
+$('f').addEventListener('submit', function(e){
+  e.preventDefault();
+  var name = $('name').value.trim(),
+      email = $('email').value.trim(),
+      role  = $('role').value.trim(),
+      err   = $('err');
+
+  if(!name || !role || email.indexOf('@') < 1 || email.indexOf('.') < 3){
+    err.textContent = 'We need a name, a work email and a job title.';
+    err.hidden = false;
+    return;
+  }
+  err.hidden = true;
+  $('send').disabled = true;
+  $('send').textContent = 'Sending…';
+
+  var payload = {
+    name: name, email: email, role: role,
+    status: 'captured', captured_at: new Date().toISOString()
+  };
+  var hc = parseInt($('headcount').value, 10),
+      st = parseInt($('seats').value, 10);
+  if(hc > 0) payload.headcount = hc;
+  if(st >= 0) payload.seats = st;
+  var body = JSON.stringify(payload);
+
+  var req = (CFG.SUPABASE_URL && session)
+    ? api(CFG.TABLE+'?id=eq.' + session.id, { method:'PATCH', headers:{'Prefer':'return=minimal'}, body: body })
+    : Promise.resolve({ ok: true });
+
+  req.then(function(r){
+    if(!r.ok) throw new Error('save failed');
+    $('form').hidden = true;
+    $('done').hidden = false;
+  }).catch(function(){
+    $('send').disabled = false;
+    $('send').textContent = 'Send me my result';
+    err.textContent = 'That didn’t send. Check your signal and try once more.';
+    err.hidden = false;
+  });
+});
+})();
+</script>
+</body>
+</html>

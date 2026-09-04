@@ -28,6 +28,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
       background:repeating-linear-gradient(0deg,rgba(0,0,0,.36) 0 2px,transparent 2px 5px)}
 #hud,#stage,#foot{position:relative;z-index:5}
 
+/* ── the ship that tows each question in ─────────────
+   The ship and the question move as one: the ship rides
+   just off the right edge of the incoming block, so it is
+   never on top of the text. Same duration, same easing —
+   the block decelerates into place and the ship carries
+   straight on out of the right of the screen. */
+#ship{position:absolute;left:0;top:44%;z-index:30;pointer-events:none;
+      transform:translate(-140px,-50%)}
+#ship svg{display:block;position:relative;z-index:2}
+#ship .trail{position:absolute;right:100%;top:50%;width:760px;height:8px;
+      transform:translateY(-50%);z-index:1;
+      background:linear-gradient(to left,rgba(255,201,60,.5),rgba(167,155,255,.12) 45%,rgba(167,155,255,0))}
+#ship.fly{animation:zoom .85s cubic-bezier(.22,.61,.36,1) forwards}
+@keyframes zoom{from{transform:translate(-140px,-50%)}
+                to  {transform:translate(1640px,-50%)}}
+#ship .flame{animation:flick .11s steps(1,end) infinite}
+@keyframes flick{50%{opacity:.3}}
+.scr.warp{animation:tow .85s cubic-bezier(.22,.61,.36,1) both}
+@keyframes tow{from{transform:translateX(-1720px)}
+               to  {transform:translateX(0)}}
+@media (prefers-reduced-motion: reduce){
+  #ship.fly{animation:none}
+  .scr.warp{animation:none}
+}
+
 /* ── hud ─────────────────────────────────────────────── */
 #hud,#foot{font-family:var(--px);font-size:15px;color:var(--faint);letter-spacing:.08em;align-items:center}
 #hud{display:flex;justify-content:space-between;gap:20px}
@@ -122,6 +147,11 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
         padding:17px 30px;width:100%;letter-spacing:.02em}
 .tapbtn:hover{background:#FFD75E}
 .orline{font-family:var(--mono);font-size:15px;color:var(--faint);letter-spacing:.2em}
+.taprow{display:flex;gap:22px;width:100%;align-items:stretch}
+.qr{flex:0 0 150px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.qr img{width:150px;height:150px;display:block;border:4px solid var(--violet);position:relative;z-index:30;background:#EDEAF7}
+.qr span{font-family:var(--mono);font-size:12px;letter-spacing:.2em;color:var(--violet-lt)}
+.tapcol{flex:1;display:flex;flex-direction:column;gap:13px;justify-content:center;align-items:center}
 .emailrow{display:flex;gap:12px;width:100%}
 .emailrow input{flex:1;font-family:var(--mono);font-size:17px;padding:12px 16px;background:#0A0713;
                 color:var(--ink);border:4px solid var(--rule)}
@@ -142,6 +172,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
 
 <div id="fit"><div id="screen">
   <div id="stars" aria-hidden="true"></div>
+  <div id="ship" aria-hidden="true"><i class="trail"></i><svg width="234" height="117" viewBox="0 0 18 9" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="0" width="1" height="1" fill="#A79BFF"/><rect x="6" y="0" width="1" height="1" fill="#A79BFF"/><rect x="5" y="1" width="1" height="1" fill="#A79BFF"/><rect x="6" y="1" width="1" height="1" fill="#A79BFF"/><rect x="7" y="1" width="1" height="1" fill="#A79BFF"/><rect x="5" y="2" width="1" height="1" fill="#A79BFF"/><rect x="6" y="2" width="1" height="1" fill="#A79BFF"/><rect x="7" y="2" width="1" height="1" fill="#A79BFF"/><rect x="8" y="2" width="1" height="1" fill="#A79BFF"/><rect x="9" y="2" width="1" height="1" fill="#A79BFF"/><rect x="10" y="2" width="1" height="1" fill="#A79BFF"/><rect x="5" y="3" width="1" height="1" fill="#A79BFF"/><rect x="6" y="3" width="1" height="1" fill="#A79BFF"/><rect x="7" y="3" width="1" height="1" fill="#A79BFF"/><rect x="8" y="3" width="1" height="1" fill="#A79BFF"/><rect x="9" y="3" width="1" height="1" fill="#A79BFF"/><rect x="10" y="3" width="1" height="1" fill="#A79BFF"/><rect x="11" y="3" width="1" height="1" fill="#A79BFF"/><rect x="12" y="3" width="1" height="1" fill="#A79BFF"/><rect x="13" y="3" width="1" height="1" fill="#A79BFF"/><rect x="5" y="4" width="1" height="1" fill="#A79BFF"/><rect x="6" y="4" width="1" height="1" fill="#A79BFF"/><rect x="7" y="4" width="1" height="1" fill="#A79BFF"/><rect x="8" y="4" width="1" height="1" fill="#FFC93C"/><rect x="9" y="4" width="1" height="1" fill="#FFC93C"/><rect x="10" y="4" width="1" height="1" fill="#A79BFF"/><rect x="11" y="4" width="1" height="1" fill="#A79BFF"/><rect x="12" y="4" width="1" height="1" fill="#A79BFF"/><rect x="13" y="4" width="1" height="1" fill="#A79BFF"/><rect x="14" y="4" width="1" height="1" fill="#A79BFF"/><rect x="15" y="4" width="1" height="1" fill="#A79BFF"/><rect x="16" y="4" width="1" height="1" fill="#A79BFF"/><rect x="17" y="4" width="1" height="1" fill="#A79BFF"/><rect x="5" y="5" width="1" height="1" fill="#A79BFF"/><rect x="6" y="5" width="1" height="1" fill="#A79BFF"/><rect x="7" y="5" width="1" height="1" fill="#A79BFF"/><rect x="8" y="5" width="1" height="1" fill="#A79BFF"/><rect x="9" y="5" width="1" height="1" fill="#A79BFF"/><rect x="10" y="5" width="1" height="1" fill="#A79BFF"/><rect x="11" y="5" width="1" height="1" fill="#A79BFF"/><rect x="12" y="5" width="1" height="1" fill="#A79BFF"/><rect x="13" y="5" width="1" height="1" fill="#A79BFF"/><rect x="5" y="6" width="1" height="1" fill="#A79BFF"/><rect x="6" y="6" width="1" height="1" fill="#A79BFF"/><rect x="7" y="6" width="1" height="1" fill="#A79BFF"/><rect x="8" y="6" width="1" height="1" fill="#A79BFF"/><rect x="9" y="6" width="1" height="1" fill="#A79BFF"/><rect x="10" y="6" width="1" height="1" fill="#A79BFF"/><rect x="5" y="7" width="1" height="1" fill="#A79BFF"/><rect x="6" y="7" width="1" height="1" fill="#A79BFF"/><rect x="7" y="7" width="1" height="1" fill="#A79BFF"/><rect x="5" y="8" width="1" height="1" fill="#A79BFF"/><rect x="6" y="8" width="1" height="1" fill="#A79BFF"/><g class="flame"><rect x="3" y="2" width="1" height="1" fill="#FFC93C"/><rect x="4" y="2" width="1" height="1" fill="#FFC93C"/><rect x="1" y="3" width="1" height="1" fill="#FFFFFF"/><rect x="2" y="3" width="1" height="1" fill="#FFC93C"/><rect x="3" y="3" width="1" height="1" fill="#FFC93C"/><rect x="4" y="3" width="1" height="1" fill="#FFC93C"/><rect x="0" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="1" y="4" width="1" height="1" fill="#FFFFFF"/><rect x="2" y="4" width="1" height="1" fill="#FFC93C"/><rect x="3" y="4" width="1" height="1" fill="#FFC93C"/><rect x="4" y="4" width="1" height="1" fill="#FFC93C"/><rect x="1" y="5" width="1" height="1" fill="#FFFFFF"/><rect x="2" y="5" width="1" height="1" fill="#FFC93C"/><rect x="3" y="5" width="1" height="1" fill="#FFC93C"/><rect x="4" y="5" width="1" height="1" fill="#FFC93C"/><rect x="3" y="6" width="1" height="1" fill="#FFC93C"/><rect x="4" y="6" width="1" height="1" fill="#FFC93C"/></g></svg></div>
 
   <div id="hud">
     <span class="brand" id="hudLeft">LIGHTDASH · BIG DATA LDN</span>
@@ -153,12 +184,13 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
   <main id="stage" aria-live="polite">
 
     <!-- 0 ATTRACT -->
-    <section class="scr live" id="s0">
-      <p class="title">PLAYER <span id="pnum">148</span><br>READY</p>
+    <section class="scr live" id="s0" style="gap:24px">
+      <p class="tiny">PLAYER <span id="pnum">148</span> READY</p>
+      <p class="title" style="font-size:58px">HOW MANY OF YOUR<br>COLLEAGUES CAN<br>ACTUALLY SEE IT?</p>
       <hr class="rule">
-      <p class="say">Business intelligence for everyone at your company — not just the analysts.</p>
+      <p class="say" style="max-width:64ch">Two questions. Ninety seconds. You walk out knowing how many people at your company can open a dashboard — and whether that is better or worse than everybody else.</p>
       <p class="md am blink">PRESS START</p>
-      <p class="tiny">ONE PERSON AT A TIME &middot; 90 SECONDS &middot; NOBODY IS WATCHING</p>
+      <p class="tiny" id="board">MOST COMPANIES LICENCE 25% OF THEIR STAFF &middot; BARC, 214 COMPANIES</p>
     </section>
 
     <!-- 1 ENTERING -->
@@ -184,6 +216,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
         <span><s style="background:#191233"></s>CANNOT</span>
       </p>
       <p class="h" id="dotsLine" style="min-height:76px"></p>
+      <p class="say" id="dotsRank" style="min-height:34px"></p>
     </section>
 
     <!-- 4 WHO WE ARE -->
@@ -194,11 +227,12 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
       <p class="say dim" style="max-width:78ch">Your data team decides how each number is defined. Everyone else explores dashboards — or just asks a question in plain English and gets an answer they can trust.</p>
     </section>
 
-    <!-- 5 CAPTURE -->
-    <section class="scr" id="s5" style="gap:20px">
-      <p class="h" style="font-size:34px">TAKE THIS WITH YOU.</p>
-      <div class="cap" id="capBox"></div>
+    <!-- 5 FORK -->
+    <section class="scr" id="s5" style="gap:24px">
+      <p class="tiny">YOU CAN STOP HERE</p>
+      <p class="h">WANT TO KNOW<br>WHY THIS HAPPENS?</p>
       <div class="opts stack" id="fork"></div>
+      <p class="say dim">Either way you keep your result.</p>
     </section>
 
     <!-- 6 QUESTION 2 -->
@@ -216,22 +250,28 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
       <p class="src" id="calcSrc"></p>
     </section>
 
-    <!-- 8 DOORS -->
-    <section class="scr" id="s8">
+    <!-- 8 CAPTURE -->
+    <section class="scr" id="s8" style="gap:18px">
+      <p class="h" style="font-size:32px">TAKE THIS WITH YOU.</p>
+      <div class="cap" id="capBox"></div>
+    </section>
+
+    <!-- 9 DOORS -->
+    <section class="scr" id="s9">
       <p class="tiny">PEOPLE AT YOUR COMPANY LOCKED OUT</p>
       <p class="bignum" id="locked">388</p>
       <p class="say dim" id="freeLine" style="max-width:90ch"></p>
       <div class="opts" id="doors"></div>
     </section>
 
-    <!-- 9 EXIT -->
-    <section class="scr" id="s9" style="gap:24px">
+    <!-- 10 EXIT -->
+    <section class="scr" id="s10" style="gap:24px">
       <p class="title" id="exitHead" style="font-size:52px">ONE THING<br>BEFORE YOU GO.</p>
       <div id="exitBody" style="display:flex;flex-direction:column;align-items:center;gap:22px;width:100%"></div>
     </section>
 
-    <!-- 10 GAME OVER -->
-    <section class="scr" id="s10">
+    <!-- 11 GAME OVER -->
+    <section class="scr" id="s11">
       <p class="title" style="color:#FF6E88;text-shadow:7px 7px 0 #4A1626">GAME OVER</p>
       <hr class="rule">
       <p class="h" id="overLine">388 STILL CAN'T<br>SEE THE DATA</p>
@@ -258,6 +298,99 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
 "use strict";
 function $(id){return document.getElementById(id);}
 
+/* ────────────────────────────────────────────────────────────────
+   CONFIG — fill these in to connect the booth to Supabase.
+   Leave SUPABASE_URL empty and the booth runs standalone: the
+   capture screen shows a local form and nothing is sent anywhere.
+   The anon key is meant to be public; row-level security is what
+   protects the data. See supabase.sql.
+   ──────────────────────────────────────────────────────────────── */
+var CFG = {
+  SUPABASE_URL : 'https://jksvcxbguavwyoxuzhch.supabase.co',
+  SUPABASE_KEY : 'sb_publishable_0JZn5s4_hEDg-me3JExz_Q_i4iy8z07',
+  TABLE        : 'booth_sessions',
+  CAPTURE_URL  : 'theferreres-sys.github.io/player-one/capture'  // shown on screen
+};
+/* QR to the capture page. Static, because there is only ever one live
+   session: the phone asks "which run is live" rather than carrying a code. */
+var QR_CAPTURE = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzOTAgMzkwIiBjbGFzcz0ic2Vnbm8iPjxnIHRyYW5zZm9ybT0ic2NhbGUoMTApIj48cGF0aCBmaWxsPSIjZWRlYWY3IiBkPSJNMCAwaDM5djM5aC0zOXoiLz48cGF0aCBjbGFzcz0icXJsaW5lIiBzdHJva2U9IiMwYTA3MTMiIGQ9Ik0zIDMuNWg3bTIgMGgxbTEgMGgzbTIgMGgybTEgMGgybTEgMGgybTIgMGg3bS0zMyAxaDFtNSAwaDFtMiAwaDFtMyAwaDVtMiAwaDFtMSAwaDFtMyAwaDFtNSAwaDFtLTMzIDFoMW0xIDBoM20xIDBoMW0xIDBoMm0xIDBoM20xIDBoMm0xIDBoMm0xIDBoMm0zIDBoMW0xIDBoM20xIDBoMW0tMzMgMWgxbTEgMGgzbTEgMGgxbTEgMGg0bTIgMGg0bTQgMGgxbTEgMGgxbTEgMGgxbTEgMGgzbTEgMGgxbS0zMyAxaDFtMSAwaDNtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMiAwaDFtMSAwaDNtMSAwaDFtMSAwaDJtMSAwaDFtMSAwaDNtMSAwaDFtLTMzIDFoMW01IDBoMW0xIDBoMW0zIDBoMm0xIDBoMm0xIDBoMW0xIDBoMW01IDBoMW01IDBoMW0tMzMgMWg3bTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGg3bS0yNSAxaDFtMiAwaDJtMiAwaDFtNCAwaDJtLTIyIDFoMW0xIDBoNW02IDBoMW0xIDBoM20yIDBoMW0xIDBoMW0xIDBoMW0xIDBoNW0tMzEgMWgxbTEgMGgybTMgMGgxbTIgMGgxbTUgMGgybTEgMGg1bTIgMGgybTEgMGgybTEgMGgxbS0zMyAxaDJtMSAwaDFtMSAwaDJtMSAwaDFtMyAwaDFtMiAwaDFtMiAwaDFtMSAwaDFtMyAwaDJtMiAwaDFtMSAwaDFtLTMwIDFoMW02IDBoM20zIDBoMm0yIDBoMW0xIDBoNG0xIDBoMW0yIDBoNW0tMzAgMWgybTEgMGgxbTIgMGgxbTcgMGgxbTEgMGgxbTIgMGgxbTEgMGgybTEgMGgzbTEgMGgybS0zMiAxaDFtNyAwaDFtMSAwaDJtMSAwaDNtMiAwaDNtMSAwaDFtMSAwaDJtMiAwaDFtMSAwaDJtLTMzIDFoM20xIDBoM20xIDBoMW0xIDBoMm0xIDBoMW0zIDBoMm01IDBoM20yIDBoMW0xIDBoMW0tMzIgMWgxbTEgMGgxbTEgMGgxbTggMGgxbTIgMGgxbTIgMGgxbTEgMGgxbTEgMGgxbTEgMGg2bS0zMSAxaDFtMSAwaDFtMSAwaDFtMSAwaDJtMSAwaDFtMiAwaDFtMSAwaDFtMiAwaDJtMyAwaDRtMSAwaDNtMiAwaDFtLTMzIDFoMW0yIDBoMm0yIDBoM20yIDBoM20xIDBoMW0xIDBoMm0xIDBoMW0xIDBoMW0xIDBoM20xIDBoMm0xIDBoMW0tMzMgMWgxbTIgMGgxbTIgMGgzbTIgMGgxbTIgMGgybTQgMGgybTUgMGgybTEgMGgybS0zMiAxaDJtNiAwaDJtNSAwaDJtMSAwaDJtMSAwaDJtMyAwaDZtLTMyIDFoN20xIDBoMm0xIDBoMW0yIDBoMm0xIDBoMW0yIDBoMW0xIDBoMW0xIDBoMW0zIDBoMm0yIDBoMW0tMzMgMWgzbTIgMGgxbTEgMGgxbTIgMGgzbTIgMGgxbTEgMGg3bTIgMGgxbTMgMGgxbTEgMGgxbS0zMyAxaDFtMiAwaDFtMSAwaDJtMSAwaDFtMiAwaDJtMiAwaDFtMSAwaDFtMiAwaDNtMiAwaDFtNCAwaDJtLTMyIDFoMW0xIDBoMW02IDBoMW0zIDBoMW0xIDBoMW0yIDBoMW0xIDBoNG0zIDBoMW0xIDBoM20tMzIgMWgxbTQgMGgzbTUgMGg1bTIgMGgxbTEgMGg3bTMgMGgxbS0yNSAxaDFtMyAwaDJtMiAwaDdtMSAwaDFtMyAwaDFtMSAwaDFtMSAwaDFtLTMzIDFoN20yIDBoMW0yIDBoMW0yIDBoMm0zIDBoMm0xIDBoMm0xIDBoMW0xIDBoMW0xIDBoMm0tMzIgMWgxbTUgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgybTQgMGgybTEgMGgybTMgMGgzbTEgMGgxbS0zMyAxaDFtMSAwaDNtMSAwaDFtMSAwaDFtMiAwaDFtMSAwaDJtMiAwaDFtMiAwaDFtMSAwaDFtMSAwaDZtMSAwaDJtLTMzIDFoMW0xIDBoM20xIDBoMW0xIDBoNG0yIDBoMm0yIDBoNW0xIDBoMm0yIDBoMm0xIDBoMm0tMzMgMWgxbTEgMGgzbTEgMGgxbTEgMGg1bTEgMGgybTEgMGgxbTggMGgybTIgMGgxbS0zMSAxaDFtNSAwaDFtMyAwaDNtMSAwaDNtMyAwaDJtMyAwaDJtMSAwaDNtLTMxIDFoN20xIDBoMm0yIDBoMW00IDBoMW00IDBoNG0xIDBoMW0zIDBoMSIvPjwvZz48L3N2Zz4K';
+
+/* ── net: one live session at a time, which is the whole trick ── */
+var net = (function(){
+  var on = function(){ return !!(CFG.SUPABASE_URL && CFG.SUPABASE_KEY); };
+  var pollT = null, sessionId = null;
+
+  function api(path, opts){
+    opts = opts || {};
+    opts.headers = Object.assign({
+      'apikey': CFG.SUPABASE_KEY,
+      'Authorization': 'Bearer ' + CFG.SUPABASE_KEY,
+      'Content-Type': 'application/json'
+    }, opts.headers || {});
+    return fetch(CFG.SUPABASE_URL + '/rest/v1/' + path, opts);
+  }
+
+  return {
+    enabled: on,
+    id: function(){ return sessionId; },
+
+    /* start of a run: close any stale session, open a fresh one */
+    start: function(playerNo){
+      if(!on()) return;
+      sessionId = null;
+      api(CFG.TABLE+'?status=eq.live', {
+        method:'PATCH', headers:{'Prefer':'return=minimal'},
+        body: JSON.stringify({ status:'abandoned' })
+      }).then(function(){
+        return api(CFG.TABLE, {
+          method:'POST', headers:{'Prefer':'return=representation'},
+          body: JSON.stringify({ player_no: playerNo, status:'live' })
+        });
+      }).then(function(r){ return r.json(); })
+        .then(function(rows){ if(rows && rows[0]) sessionId = rows[0].id; })
+        .catch(function(){});
+    },
+
+    /* push answers as they happen, so the phone page can show them */
+    answers: function(patch){
+      if(!on() || !sessionId) return;
+      api(CFG.TABLE+'?id=eq.' + sessionId, {
+        method:'PATCH', headers:{'Prefer':'return=minimal'},
+        body: JSON.stringify(patch)
+      }).catch(function(){});
+    },
+
+    /* capture screen open: watch for the phone submitting */
+    open: function(){
+      if(!on() || !sessionId) return;
+      net.stopPoll();
+      pollT = setInterval(function(){
+        api(CFG.TABLE+'?id=eq.' + sessionId + '&select=status', {})
+          .then(function(r){ return r.json(); })
+          .then(function(rows){
+            if(rows && rows[0] && rows[0].status === 'captured'){
+              net.stopPoll();
+              st.captured = true;
+              renderCap();
+              if(st.n === 10) renderExit();
+            }
+          }).catch(function(){});
+      }, 1500);
+    },
+    stopPoll: function(){ if(pollT){ clearInterval(pollT); pollT = null; } },
+
+    /* end of run */
+    close: function(){
+      if(!on() || !sessionId) return;
+      api(CFG.TABLE+'?id=eq.' + sessionId + '&status=eq.live', {
+        method:'PATCH', headers:{'Prefer':'return=minimal'},
+        body: JSON.stringify({ status:'done' })
+      }).catch(function(){});
+      sessionId = null;
+    }
+  };
+})();
+
 /* ── fit the 16:9 stage to any browser ─────────────────── */
 function fit(){
   var s = Math.min(document.documentElement.clientWidth/1600, document.documentElement.clientHeight/900);
@@ -280,7 +413,7 @@ window.addEventListener('resize', fit); fit();
 })();
 
 /* ── data ─────────────────────────────────────────────── */
-var FX = 'Lightdash Cloud is $3,000/mo, converted at 1 USD = 0.7362 GBP.';
+var FX = 'Seat estimate: BARC 2022, 214 companies, 25% of employees use BI/analytics. Lightdash Cloud is $3,000/mo, converted at 1 USD = 0.7362 GBP.';
 var TOOLS = {
   'POWER BI':{
     rate:10.80,
@@ -309,16 +442,23 @@ var TOOLS = {
     src:"No figure shown because we don't know what you pay. "+FX
   }
 };
+/* BARC, "Strategies for Driving Adoption and Usage with BI and Analytics",
+   2022, 214 companies: 25% of employees actively use BI/analytics, which
+   BARC notes is "minimal growth in the past seven years". Every default
+   below is that 25% applied to the band. The attendee corrects it on
+   their phone if they know better. */
+var AVG = 25;
 var SIZES = [
-  {label:'UNDER 50',       hint:'Small team',      size:40,  lit:4},
-  {label:'50 - 500',       hint:'Most people here',size:400, lit:12},
-  {label:'MORE THAN 500',  hint:'Enterprise',      size:600, lit:19}
+  {label:'UNDER 50',       hint:'Small team',      size:40,  lit:10},
+  {label:'50 - 500',       hint:'Most people here',size:400, lit:100},
+  {label:'MORE THAN 500',  hint:'Enterprise',      size:600, lit:150}
 ];
 
-var POWER = {0:0,1:10,2:22,3:40,4:52,5:62,6:74,7:84,8:94,9:97,10:100};
-var CLOCK = {0:'0:00',1:'0:05',2:'0:12',3:'0:25',4:'0:38',5:'0:48',6:'1:05',7:'1:25',8:'2:00',9:'2:25',10:'2:40'};
+var POWER = {0:0,1:10,2:22,3:40,4:52,5:60,6:70,7:80,8:88,9:94,10:97,11:100};
+var CLOCK = {0:'0:00',1:'0:05',2:'0:12',3:'0:25',4:'0:38',5:'0:50',6:'1:00',7:'1:20',8:'1:45',9:'2:05',10:'2:25',11:'2:40'};
 var WHERE = {0:'OUTSIDE THE CURTAIN',1:'THE CURTAIN CLOSES',2:'QUESTION 1',3:'THE PAYOFF',4:'WHO WE ARE',
-             5:'TAKE IT AWAY',6:'QUESTION 2',7:'THE REASON',8:'THREE DOORS',9:'WALKING OUT',10:'THE CURTAIN OPENS'};
+             5:'YOUR CHOICE',6:'QUESTION 2',7:'THE REASON',8:'TAKE IT AWAY',9:'THREE DOORS',
+             10:'WALKING OUT',11:'THE CURTAIN OPENS'};
 
 var st = {n:0, player:148, size:400, lit:12, tool:'POWER BI', captured:false, exitView:'ask', hist:[]};
 var dotTimer=null, dotTimer2=null;
@@ -332,25 +472,46 @@ function power(p){
 }
 function prompt(t){ $('prompt').textContent=t; }
 
+/* ── the ship ─────────────────────────────────────────
+   Every screen that ASKS something gets flown in: the ship
+   crosses, and the question lands behind it. Purely visual —
+   the screen has already switched, so nothing waits on it. */
+var WARP = {2:1, 5:1, 6:1, 9:1};
+var warpT = null;
+function warp(n){
+  if(!WARP[n]) return;
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var sh=$('ship'), sc=$('s'+n);
+  sh.classList.remove('fly'); sc.classList.remove('warp');
+  void sh.offsetWidth;                 /* restart both animations */
+  sh.classList.add('fly'); sc.classList.add('warp');
+  clearTimeout(warpT);
+  warpT=setTimeout(function(){ sh.classList.remove('fly'); sc.classList.remove('warp'); },1050);
+}
+
 function go(n, isBack){
   if(!isBack && st.n!==n) st.hist.push(st.n);
   st.n=n;
   $('backBtn').hidden = (n===0 || st.hist.length===0);
   $('restartBtn').hidden = (n===0);
-  for(var i=0;i<11;i++) $('s'+i).classList.toggle('live', i===n);
+  for(var i=0;i<12;i++) $('s'+i).classList.toggle('live', i===n);
   power(POWER[n]); $('clock').textContent=CLOCK[n]; $('where').textContent=WHERE[n];
   $('batt').style.visibility = n===0 ? 'hidden' : 'visible';
   if(n===0){ $('pnum').textContent=st.player; prompt('PRESS 1 TO START'); }
+  if(n===1) net.start(st.player);
   if(n===1) prompt('PRESS 1 TO CONTINUE');
   if(n===2) prompt('PRESS 1 / 2 / 3');
   if(n===3){ runDots(); prompt(''); }
   if(n===4) prompt('PRESS 1 TO CONTINUE');
-  if(n===5){ renderCap(); prompt('PRESS 1 OR 2'); }
+  if(n===5) prompt('PRESS 1 OR 2');
   if(n===6) prompt('PRESS 1 / 2 / 3 / 4');
   if(n===7){ buildCalc(); prompt('PRESS 1 TO CONTINUE'); }
-  if(n===8){ buildDoors(); prompt('PRESS 1 / 2 / 3'); }
-  if(n===9){ st.exitView = st.captured ? 'saved' : 'ask'; renderExit(); }
-  if(n===10){ buildOver(); prompt('PRESS 1 TO PLAY AGAIN'); }
+  if(n===8){ renderCap(); net.open(); prompt('PRESS 1 TO CONTINUE'); }
+  if(n===9){ buildDoors(); prompt('PRESS 1 / 2 / 3'); }
+  if(n===10){ st.exitView = st.captured ? 'saved' : 'ask'; renderExit(); }
+  if(n===11){ buildOver(); prompt('PRESS 1 TO PLAY AGAIN'); }
+  if(n!==8 && n!==10) net.stopPoll();
+  if(!isBack) warp(n);
   armIdle();
 }
 
@@ -374,18 +535,20 @@ function tiles(host, items, stack, onPick){
 }
 
 /* ── 2 · question one ─────────────────────────────────── */
-tiles($('q1'), SIZES, false, function(it){ st.size=it.size; st.lit=it.lit; go(3); });
+tiles($('q1'), SIZES, false, function(it){ st.size=it.size; st.lit=it.lit;
+  net.answers({ headcount: it.size, seats: it.lit }); go(3); });
 
 /* ── 3 · the dots ─────────────────────────────────────── */
 function runDots(){
   var g=$('grid');
   var cols = st.size<=40 ? 10 : (st.size<=400 ? 25 : 30);
-  var dot  = st.size<=40 ? '30px' : (st.size<=400 ? '17px' : '15px');
+  var dot  = st.size<=40 ? '28px' : (st.size<=400 ? '14px' : '12px');
   g.style.setProperty('--dot',dot);
   g.style.gridTemplateColumns='repeat('+cols+', '+dot+')';
   g.className=''; g.innerHTML='';
   $('legend').style.visibility='hidden';
   $('dotsLine').innerHTML='';
+  $('dotsRank').innerHTML='';
   $('dotsCap').textContent='THIS IS YOUR COMPANY · '+st.size+' PEOPLE';
   for(var i=0;i<st.size;i++){
     var b=document.createElement('b');
@@ -406,25 +569,52 @@ function runDots(){
     g.classList.add('dimmed');
     $('legend').style.visibility='visible';
     dotTimer2=setTimeout(function(){
-      $('dotsLine').innerHTML='ROUGHLY <span class="am">'+st.lit+'</span> OF THEM CAN<br>ACTUALLY OPEN A DASHBOARD';
+      $('dotsLine').innerHTML='ABOUT <span class="am">'+st.lit+'</span> OF THEM CAN<br>OPEN A DASHBOARD';
+      $('dotsRank').innerHTML =
+        'That is the industry average \u2014 <span class="am">'+AVG+'%</span> of staff, across 214 companies. '
+        + 'Which still leaves <span class="co">' + (st.size-st.lit) + '</span> of your colleagues who cannot.'
+        + '<br><span style="color:var(--faint)">Think that is wrong? Correct it on your phone in a minute.</span>';
       prompt('PRESS 1 TO CONTINUE');
     },900);
   },1500);
 }
 
-/* ── 5 · capture ─────────────────────────────── */
+/* ── 8 · capture ──────────────────────────────── */
 function renderCapInto(box, onSaved){
   if(st.captured){
     box.innerHTML='<p class="saved">\u2713 SAVED</p>'+
       '<p class="say dim" style="text-align:center">Your one-pager is on its way \u2014 your numbers, what you pay now, and what it would take to give everyone access.</p>';
     return;
   }
+
+  if(net.enabled()){
+    /* booth mode: they type on their own phone, the screen just waits */
+    box.innerHTML =
+      '<ul><li>A one-page summary you can forward to your boss</li>'+
+      '<li>Your numbers, what you pay now, and what it would take to give everyone access</li>'+
+      '<li>The full benchmark from everyone who played, when the show closes</li></ul>'+
+      '<div class="taprow">'+
+        '<div class="qr"><img src="'+QR_CAPTURE+'" alt="QR code to the capture page"><span>SCAN ME</span></div>'+
+        '<div class="tapcol">'+
+          '<button class="tapbtn" type="button" data-tap>\u25B8 TAP YOUR PHONE HERE</button>'+
+          '<span class="orline" id="capWait">WAITING FOR YOUR PHONE\u2026</span>'+
+          '<span class="orline" style="letter-spacing:.1em">OR OPEN '+CFG.CAPTURE_URL.toUpperCase()+'</span>'+
+        '</div>'+
+      '</div>';
+    box.querySelector('[data-tap]').addEventListener('click', function(){
+      var w=$('capWait'); if(w) w.textContent='TAP THE PAD WITH YOUR PHONE\u2026';
+    });
+    return;
+  }
+
+  /* standalone mode: no backend, local form */
   box.innerHTML='<ul><li>A one-page summary you can forward to your boss</li>'+
-    '<li>Your numbers, what you pay now, and what it would take to give everyone access</li></ul>'+
-    '<button class="tapbtn" type="button" data-tap>\u25B8 TAP YOUR BADGE</button>'+
+    '<li>Your numbers, what you pay now, and what it would take to give everyone access</li>'+
+    '<li>The full benchmark from everyone who played, when the show closes</li></ul>'+
+    '<button class="tapbtn" type="button" data-tap>\u25B8 TAP YOUR PHONE</button>'+
     '<span class="orline">OR</span>'+
-    '<span class="emailrow"><input type="email" placeholder="you@company.com" aria-label="Email address" data-email><button type="button" data-send>SEND</button></span>'+
-    '<span class="orline" style="letter-spacing:.1em">IN THE BOOTH, THAT BUTTON IS AN NFC READER</span>';
+    '<span class="emailrow"><input type="email" placeholder="you@company.com" aria-label="Work email" data-email><button type="button" data-send>SEND</button></span>'+
+    '<span class="orline" style="letter-spacing:.1em">IN THE BOOTH, YOU TAP YOUR PHONE ON THE CONSOLE</span>';
   function done(){ st.captured=true; if(onSaved) onSaved(); else renderCapInto(box); }
   box.querySelector('[data-tap]').addEventListener('click', done);
   box.querySelector('[data-send]').addEventListener('click', function(){
@@ -434,14 +624,15 @@ function renderCapInto(box, onSaved){
   });
 }
 function renderCap(){ renderCapInto($('capBox')); }
+
 tiles($('fork'), [
   {label:'SHOW ME WHY THIS HAPPENS', hint:'Two more taps', go:true},
   {label:"THAT'S ENOUGH, I'M OFF",   hint:'Leave now'}
-], true, function(it,i){ go(i===0 ? 6 : 9); });
+], true, function(it,i){ go(i===0 ? 6 : 10); });
 
 /* ── 6 · question two ─────────────────────────────────── */
 tiles($('q2'), Object.keys(TOOLS).map(function(k){ return {label:k}; }), false,
-      function(it){ st.tool=it.label; go(7); });
+      function(it){ st.tool=it.label; net.answers({ tool: it.label }); go(7); });
 
 /* ── 7 · the reason ───────────────────────────────────── */
 function buildCalc(){
@@ -473,7 +664,7 @@ function buildDoors(){
   var free = {label:'TAKE IT HOME FREE',    hint:'Self-host it · unlimited users · no card', go:true};
   var comm = {label:'JOIN THE COMMUNITY',   hint:'Data people in Slack, code on GitHub'};
   var paid = {label:'HAVE US HOST IT',      hint:'Flat price, still unlimited users'};
-  tiles($('doors'), st.size>500 ? [paid,free,comm] : [free,comm,paid], false, function(){ go(9); });
+  tiles($('doors'), st.size>500 ? [paid,free,comm] : [free,comm,paid], false, function(){ go(10); });
 }
 
 /* ── 9 · exit ─────────────────────────────────── */
@@ -486,7 +677,7 @@ function renderExit(){
     b.innerHTML='<p class="say dim" style="max-width:80ch">Your one-pager is on its way \u2014 your numbers, what you pay now, '
       + 'and what it would take to give everyone access. It shouldn\'t have been this hard.</p>'
       + '<div class="opts stack" id="exitOpts"></div>';
-    tiles($('exitOpts'), [{label:'END GAME', hint:'Open the curtain'}], true, function(){ go(10); });
+    tiles($('exitOpts'), [{label:'END GAME', hint:'Open the curtain'}], true, function(){ go(11); });
     prompt('PRESS 1');
     return;
   }
@@ -497,7 +688,7 @@ function renderExit(){
   if(st.exitView==='form'){
     b.innerHTML='<div class="cap" id="capBox2"></div>';
     renderCapInto($('capBox2'), function(){ st.exitView='saved'; renderExit(); });
-    prompt('TAP THE BADGE OR TYPE YOUR EMAIL');
+    prompt('TAP YOUR PHONE OR TYPE YOUR EMAIL');
     return;
   }
 
@@ -505,11 +696,11 @@ function renderExit(){
     + 'and it\'s the bit you can forward to your boss.</p>'
     + '<div class="opts stack" id="exitOpts"></div>';
   tiles($('exitOpts'), [
-    {label:'SEND IT TO MY EMAIL', hint:'Badge tap or type it \u00b7 nothing else asked', go:true},
+    {label:'SEND IT TO MY EMAIL', hint:'Tap your phone or type it \u00b7 nothing else asked', go:true},
     {label:'END GAME',            hint:'Leave without saving'}
   ], true, function(it,i){
     if(i===0){ st.exitView='form'; renderExit(); }
-    else go(10);
+    else go(11);
   });
   prompt('PRESS 1 OR 2');
 }
@@ -529,17 +720,18 @@ function buildOver(){
    resets for the next player. Sized to reading time, and
    a warning appears WARN seconds before it fires.        */
 var IDLE = {
-  0:  0,    /* attract — waits forever */
-  1:  30,   /* you're in                */
-  2:  60,   /* question 1 · a decision  */
-  3:  60,   /* the dots · the payoff    */
-  4:  50,   /* who we are · two paras   */
-  5:  90,   /* capture · they may type  */
-  6:  60,   /* question 2 · a decision  */
-  7:  90,   /* the reason · dense table */
-  8:  60,   /* three doors              */
-  9:  60,   /* one thing before you go  */
-  10: 25    /* game over                */
+  0:  0,    /* attract — waits forever      */
+  1:  30,   /* you're in                    */
+  2:  60,   /* question 1 · a decision      */
+  3:  60,   /* the dots · the payoff        */
+  4:  50,   /* who we are · two paragraphs  */
+  5:  60,   /* the fork · a decision        */
+  6:  60,   /* question 2 · a decision      */
+  7:  90,   /* the reason · dense table     */
+  8:  120,  /* capture · they're on a phone */
+  9:  60,   /* three doors                  */
+  10: 60,   /* one thing before you go      */
+  11: 25    /* game over                    */
 };
 var WARN = 12;
 var idleT=null, warnT=null, tickT=null;
@@ -564,7 +756,7 @@ function armIdle(){
   }, (secs - WARN) * 1000);
   idleT = setTimeout(function(){
     clearIdle();
-    if(st.n === 10) reset(true); else go(10);
+    if(st.n === 11) reset(true); else go(11);
   }, secs * 1000);
 }
 ['keydown','pointerdown','pointermove','wheel','input'].forEach(function(ev){
@@ -572,29 +764,30 @@ function armIdle(){
 });
 
 /* ── controls ─────────────────────────────────────────── */
-var NEXT = {0:1, 1:2, 3:4, 4:5, 7:8};
+var NEXT = {0:1, 1:2, 3:4, 4:5, 7:8, 8:9};
 function advance(){
-  if(st.n===10){ reset(true); return; }
-  if(st.n===9) return;
+  if(st.n===11){ reset(true); return; }
+  if(st.n===10) return;
   if(st.n===3 && !$('dotsLine').textContent) return;   // wait for the payoff
   var n=NEXT[st.n];
   if(n!==undefined) go(n);
 }
 function press(i){
-  var host = {2:'q1', 5:'fork', 6:'q2', 8:'doors', 9:'exitOpts'}[st.n];
+  var host = {2:'q1', 5:'fork', 6:'q2', 9:'doors', 10:'exitOpts'}[st.n];
   var el = host ? $(host) : null;
   if(el){ var b=el.children[i]; if(b) b.click(); return; }
   if(i===0) advance();
 }
 function back(){
-  if(st.n===9 && st.exitView==='form'){ st.exitView='ask'; renderExit(); return; }
+  if(st.n===10 && st.exitView==='form'){ st.exitView='ask'; renderExit(); return; }
   if(!st.hist.length) return;
   var prev = st.hist.pop();
-  if(prev===9) st.exitView = st.captured ? 'saved' : 'ask';
+  if(prev===10) st.exitView = st.captured ? 'saved' : 'ask';
   go(prev, true);
 }
 
 function reset(counted){
+  net.stopPoll(); net.close();
   if(counted) st.player++;
   st.size=400; st.lit=12; st.tool='POWER BI'; st.captured=false; st.exitView='ask'; st.hist=[];
   go(0);
