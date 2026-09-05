@@ -208,7 +208,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
     </section>
 
     <!-- 3 RESULT -->
-    <section class="scr" id="s3">
+    <section class="scr" id="s3" style="gap:18px">
       <p class="tiny" id="dotsCap">THIS IS YOUR COMPANY</p>
       <div id="grid"></div>
       <p class="legend" id="legend" style="visibility:hidden">
@@ -543,8 +543,9 @@ tiles($('q1'), SIZES, false, function(it){ st.size=it.size; st.lit=it.lit;
 function runDots(){
   var g=$('grid');
   var cols = st.size<=40 ? 10 : (st.size<=400 ? 25 : 30);
-  var dot  = st.size<=40 ? '28px' : (st.size<=400 ? '14px' : '12px');
+  var dot  = st.size<=40 ? '28px' : (st.size<=400 ? '14px' : '11px');
   g.style.setProperty('--dot',dot);
+  g.style.gap = st.size>400 ? '4px' : '5px';
   g.style.gridTemplateColumns='repeat('+cols+', '+dot+')';
   g.className=''; g.innerHTML='';
   $('legend').style.visibility='hidden';
@@ -572,8 +573,8 @@ function runDots(){
     dotTimer2=setTimeout(function(){
       $('dotsLine').innerHTML='ABOUT <span class="am">'+st.lit+'</span> OF THEM CAN<br>GET TO THE DATA';
       $('dotsRank').innerHTML =
-        'That is the industry average \u2014 <span class="am">'+AVG+'%</span> of staff, across 214 companies. '
-        + 'The other <span class="co">' + (st.size-st.lit) + '</span> cannot open it, explore it, or build anything from it. They ask someone, and wait.'
+        'The industry average is <span class="am">'+AVG+'%</span> of staff, across 214 companies. '
+        + 'The other <span class="co">' + (st.size-st.lit) + '</span> cannot explore it or build anything from it \u2014 they ask someone, and wait.'
         + '<br><span style="color:var(--faint)">Think that is wrong? Correct it on your phone in a minute.</span>';
       prompt('PRESS 1 TO CONTINUE');
     },900);
