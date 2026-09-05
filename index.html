@@ -571,6 +571,7 @@ function runDots(){
     g.classList.add('dimmed');
     $('legend').style.visibility='visible';
     dotTimer2=setTimeout(function(){
+      $('dotsLine').style.fontSize = st.size>400 ? '32px' : (st.size<=40 ? '42px' : '35px');
       $('dotsLine').innerHTML='ABOUT <span class="am">'+st.lit+'</span> OF THEM CAN<br>GET TO THE DATA';
       $('dotsRank').innerHTML =
         'The industry average is <span class="am">'+AVG+'%</span> of staff, across 214 companies. '
