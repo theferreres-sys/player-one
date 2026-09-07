@@ -147,6 +147,18 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
         padding:17px 30px;width:100%;letter-spacing:.02em}
 .tapbtn:hover{background:#FFD75E}
 .orline{font-family:var(--mono);font-size:15px;color:var(--faint);letter-spacing:.2em}
+.doorback{display:flex;align-items:center;gap:24px;border:5px solid var(--violet);
+          background:var(--deep);padding:16px 24px;max-width:1000px;text-align:left}
+.doorback.free{border-color:var(--green)}
+.doorback img{flex:0 0 auto;width:116px;height:116px;display:block;background:#EDEAF7;
+              border:4px solid var(--violet)}
+.doorback.free img{border-color:var(--green)}
+.doorback .k{font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;
+             color:var(--violet-lt);margin-bottom:9px}
+.doorback.free .k{color:var(--green)}
+.doorback .t{font-family:var(--px);font-size:18px;line-height:1.6;color:#fff;margin-bottom:9px}
+.doorback .d{font-family:var(--mono);font-size:16px;line-height:1.55;color:var(--dim)}
+.doorback .u{font-family:var(--mono);font-size:16px;color:var(--amber);margin-top:10px;word-break:break-all}
 .taprow{display:flex;gap:22px;width:100%;align-items:stretch}
 .qr{flex:0 0 150px;display:flex;flex-direction:column;align-items:center;gap:8px}
 .qr img{width:150px;height:150px;display:block;border:4px solid var(--violet);position:relative;z-index:30;background:#EDEAF7}
@@ -266,7 +278,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
     </section>
 
     <!-- 10 EXIT -->
-    <section class="scr" id="s10" style="gap:24px">
+    <section class="scr" id="s10" style="gap:18px">
       <p class="title" id="exitHead" style="font-size:52px">ONE THING<br>BEFORE YOU GO.</p>
       <div id="exitBody" style="display:flex;flex-direction:column;align-items:center;gap:22px;width:100%"></div>
     </section>
@@ -464,7 +476,7 @@ var WHERE = {0:'OUTSIDE THE CURTAIN',1:'THE CURTAIN CLOSES',2:'QUESTION 1',3:'TH
              5:'YOUR CHOICE',6:'QUESTION 2',7:'THE REASON',8:'TAKE IT AWAY',9:'THREE DOORS',
              10:'WALKING OUT',11:'THE CURTAIN OPENS'};
 
-var st = {n:0, player:148, size:400, lit:12, tool:'POWER BI', captured:false, exitView:'ask', hist:[]};
+var st = {n:0, door:null, player:148, size:400, lit:12, tool:'POWER BI', captured:false, exitView:'ask', hist:[]};
 var dotTimer=null, dotTimer2=null;
 
 /* ── shell ────────────────────────────────────────────── */
@@ -667,21 +679,43 @@ function buildDoors(){
   $('locked').textContent = locked;
   $('freeLine').innerHTML = 'The open-source version is free, self-hosted and already has unlimited users \u2014 you could give all '
     + locked + ' of them access tonight without paying us anything. <span class="am">What you pay us for is the AI agents</span>, so they can ask in plain English instead of learning SQL, and for not having to run it yourself.';
-  var free = {label:'TAKE IT HOME FREE',    hint:'Unlimited users \u00b7 you host it \u00b7 no AI agents', go:true};
-  var comm = {label:'JOIN THE COMMUNITY',   hint:'go.lightdash.com/community'};
-  var paid = {label:'HAVE US HOST IT',      hint:'We host it \u00b7 AI agents \u00b7 support'};
-  tiles($('doors'), st.size>500 ? [paid,free,comm] : [free,comm,paid], false, function(){ go(10); });
+  var free = {label:'TAKE IT HOME FREE',    hint:'Clone it tonight \u00b7 unlimited users \u00b7 \u00a30', go:true, door:'free'};
+  var comm = {label:'JOIN THE COMMUNITY',   hint:'Ask the awkward questions first',        door:'comm'};
+  var paid = {label:'HAVE US HOST IT',      hint:'We run it \u00b7 AI agents \u00b7 1-day support', door:'paid'};
+  tiles($('doors'), st.size>500 ? [paid,free,comm] : [free,comm,paid], false,
+    function(it){ st.door = it.door; go(10); });
 }
 
 /* ── 9 · exit ─────────────────────────────────── */
+var DOORS = {
+  free:{ cls:'free', k:'You chose \u00b7 take it home free', t:'CLONE IT TONIGHT',
+         d:'Open source, self-hosted, unlimited users, no card. Scan and you are looking at the repository.',
+         u:'github.com/lightdash/lightdash', qr:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNjQgMjY0IiBjbGFzcz0ic2Vnbm8iPjxnIHRyYW5zZm9ybT0ic2NhbGUoOCkiPjxwYXRoIGZpbGw9IiNlZGVhZjciIGQ9Ik0wIDBoMzN2MzNoLTMzeiIvPjxwYXRoIGNsYXNzPSJxcmxpbmUiIHN0cm9rZT0iIzBhMDcxMyIgZD0iTTIgMi41aDdtMiAwaDJtMiAwaDFtNCAwaDFtMyAwaDdtLTI5IDFoMW01IDBoMW0xIDBoMm0yIDBoMm0yIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW01IDBoMW0tMjkgMWgxbTEgMGgzbTEgMGgxbTEgMGgzbTEgMGgxbTEgMGgybTIgMGgzbTEgMGgxbTEgMGgzbTEgMGgxbS0yOSAxaDFtMSAwaDNtMSAwaDFtMSAwaDJtMSAwaDNtMiAwaDJtMiAwaDFtMSAwaDFtMSAwaDNtMSAwaDFtLTI5IDFoMW0xIDBoM20xIDBoMW02IDBoMW0yIDBoMW0yIDBoMm0xIDBoMW0xIDBoM20xIDBoMW0tMjkgMWgxbTUgMGgxbTMgMGgxbTEgMGgxbTcgMGgxbTEgMGgxbTUgMGgxbS0yOSAxaDdtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDdtLTIxIDFoNG00IDBoMW0xIDBoMW0tMTkgMWgxbTUgMGgxbTEgMGgxbTEgMGgxbTQgMGgxbTEgMGgxbTEgMGgxbTEgMGgybTIgMGgzbS0yNyAxaDFtNiAwaDFtMSAwaDFtMSAwaDFtMSAwaDJtMiAwaDJtMSAwaDFtMSAwaDJtMSAwaDJtLTI4IDFoNG0yIDBoMW0xIDBoNG0zIDBoMW04IDBoMW0tMjUgMWgzbTEgMGgxbTIgMGgxbTIgMGgybTQgMGgxbTEgMGgxbTEgMGgybTMgMGgxbS0yNiAxaDFtNCAwaDJtMSAwaDJtMiAwaDRtNCAwaDFtMSAwaDJtNCAwaDFtLTI3IDFoMW00IDBoM20xIDBoMW0xIDBoMW0xIDBoMm0xIDBoM20xIDBoM20yIDBoMm0tMjggMWgzbTEgMGgybTIgMGgybTIgMGgzbTIgMGgxbTEgMGgybTIgMGgzbS0yNiAxaDFtMiAwaDJtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDJtMSAwaDFtMiAwaDFtMyAwaDJtMSAwaDFtMSAwaDFtLTI5IDFoMW0xIDBoNm0yIDBoM20xIDBoMW0yIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW0xIDBoMm0tMjcgMWgxbTIgMGgxbTEgMGgxbTIgMGgybTEgMGgxbTMgMGgybTIgMGgxbTIgMGgzbTEgMGgzbS0yOSAxaDNtMSAwaDFtMSAwaDFtMyAwaDFtMiAwaDNtMiAwaDJtNCAwaDJtMiAwaDFtLTI5IDFoMW0xIDBoM20zIDBoMW0xIDBoM20xIDBoM20zIDBoMW0xIDBoMW0tMjMgMWgxbTIgMGgxbTEgMGgzbTIgMGgxbTQgMGgxbTEgMGgxbTEgMGg2bTEgMGgzbS0yMSAxaDNtMSAwaDJtMSAwaDFtMSAwaDJtMSAwaDFtMyAwaDJtLTI2IDFoN20yIDBoOG0xIDBoM20xIDBoMW0xIDBoM20tMjcgMWgxbTUgMGgxbTIgMGgxbTEgMGgzbTQgMGgzbTMgMGgxbTMgMGgxbS0yOSAxaDFtMSAwaDNtMSAwaDFtMiAwaDJtMiAwaDFtMiAwaDFtMSAwaDhtMiAwaDFtLTI5IDFoMW0xIDBoM20xIDBoMW0yIDBoMm0yIDBoMW0xIDBoN20zIDBoMm0xIDBoMW0tMjkgMWgxbTEgMGgzbTEgMGgxbTIgMGg3bTEgMGgxbTEgMGg5bS0yOCAxaDFtNSAwaDFtMiAwaDJtMSAwaDFtMSAwaDFtNyAwaDJtMSAwaDJtMSAwaDFtLTI5IDFoN20xIDBoMW0xIDBoMm0yIDBoMW0yIDBoMW0xIDBoMW0yIDBoM20xIDBoMSIvPjwvZz48L3N2Zz4K' },
+  comm:{ cls:'',     k:'You chose \u00b7 join the community', t:'ASK US ANYTHING',
+         d:'Data people in Slack and the whole codebase on GitHub. Scan and you are in \u2014 ask the questions you would rather not ask a salesperson.',
+         u:'go.lightdash.com/community', qr:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNjQgMjY0IiBjbGFzcz0ic2Vnbm8iPjxnIHRyYW5zZm9ybT0ic2NhbGUoOCkiPjxwYXRoIGZpbGw9IiNlZGVhZjciIGQ9Ik0wIDBoMzN2MzNoLTMzeiIvPjxwYXRoIGNsYXNzPSJxcmxpbmUiIHN0cm9rZT0iIzBhMDcxMyIgZD0iTTIgMi41aDdtMyAwaDFtMyAwaDFtMiAwaDNtMiAwaDdtLTI5IDFoMW01IDBoMW01IDBoMW0zIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW01IDBoMW0tMjkgMWgxbTEgMGgzbTEgMGgxbTQgMGgxbTIgMGgybTEgMGgxbTEgMGgxbTIgMGgxbTEgMGgzbTEgMGgxbS0yOSAxaDFtMSAwaDNtMSAwaDFtMyAwaDFtMiAwaDFtNCAwaDJtMiAwaDFtMSAwaDNtMSAwaDFtLTI5IDFoMW0xIDBoM20xIDBoMW01IDBoMW00IDBoMm0zIDBoMW0xIDBoM20xIDBoMW0tMjkgMWgxbTUgMGgxbTEgMGgybTEgMGgxbTMgMGgxbTIgMGgzbTEgMGgxbTUgMGgxbS0yOSAxaDdtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDdtLTE5IDFoMW0yIDBoMW0xIDBoNm0tMjEgMWgxbTIgMGgxbTEgMGgybTEgMGgzbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgybTEgMGgxbTEgMGgxbS0yMyAxaDJtMSAwaDJtNCAwaDFtMiAwaDFtMSAwaDFtNSAwaDJtMiAwaDFtMiAwaDFtLTI5IDFoM20zIDBoMW00IDBoMW0xIDBoMm0xIDBoMm0xIDBoMm0xIDBoMW0xIDBoNG0tMjggMWgxbTEgMGgzbTIgMGgybTMgMGgybTEgMGgxbTIgMGgzbTIgMGgybTEgMGgybS0yNyAxaDFtMSAwaDJtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDJtMSAwaDFtMSAwaDRtMiAwaDFtMSAwaDJtLTI1IDFoMW0zIDBoMW0xIDBoNW0yIDBoMW0xIDBoM20tMjIgMWgxbTQgMGg2bTEgMGgzbTEgMGgxbTEgMGgxbTEgMGg0bTEgMGg0bS0yOCAxaDJtMSAwaDFtMiAwaDFtMiAwaDFtMSAwaDFtMiAwaDRtMyAwaDFtMSAwaDJtMSAwaDFtLTI4IDFoMm0yIDBoMW0xIDBoMm0yIDBoMW0xIDBoMm0yIDBoMm0xIDBoMW0xIDBoMW01IDBoMW0tMjYgMWgybTEgMGgxbTMgMGgxbTMgMGgybTEgMGgybTMgMGgybTIgMGgxbTIgMGgxbS0yOSAxaDFtMSAwaDFtMSAwaDFtMSAwaDNtMyAwaDFtMSAwaDFtMiAwaDFtNSAwaDFtMyAwaDJtLTI1IDFoMm0xIDBoMW0xIDBoMW0yIDBoMW0xIDBoNW0yIDBoMm0xIDBoMW0yIDBoMm0tMjkgMWgxbTEgMGgybTEgMGgybTIgMGg0bTIgMGgybTMgMGg1bTEgMGgxbS0xOSAxaDVtMSAwaDFtMSAwaDFtMiAwaDJtMyAwaDFtMSAwaDNtLTI5IDFoN20zIDBoMW0xIDBoMW03IDBoMW0xIDBoMW0xIDBoMW0yIDBoMW0tMjggMWgxbTUgMGgxbTEgMGgzbTMgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTMgMGg1bS0yOSAxaDFtMSAwaDNtMSAwaDFtMiAwaDJtMSAwaDFtMiAwaDNtMiAwaDVtMyAwaDFtLTI5IDFoMW0xIDBoM20xIDBoMW0xIDBoMW0xIDBoNG04IDBoNm0tMjggMWgxbTEgMGgzbTEgMGgxbTIgMGgxbTMgMGgybTIgMGgxbTEgMGgxbTEgMGgxbTIgMGgzbTEgMGgxbS0yOSAxaDFtNSAwaDFtMiAwaDJtMSAwaDltMyAwaDFtMiAwaDFtLTI4IDFoN20xIDBoM20zIDBoMW0xIDBoMm0yIDBoMW0yIDBoM20xIDBoMSIvPjwvZz48L3N2Zz4K' },
+  paid:{ cls:'',     k:'You chose \u00b7 have us host it', t:'WE WILL COME TO YOU',
+         d:'Fifteen minutes with someone technical, not a pitch. Leave your email below and it lands with your own numbers already in it \u2014 no form to fill in twice.',
+         u:'', qr:'' }
+};
+function doorPanel(){
+  var d = DOORS[st.door]; if(!d) return '';
+  return '<div class="doorback '+d.cls+'">'
+       + (d.qr ? '<img src="'+d.qr+'" alt="">' : '')
+       + '<div><p class="k">'+d.k+'</p><p class="t">'+d.t+'</p><p class="d">'+d.d+'</p>'
+       + (d.u ? '<p class="u">'+d.u+'</p>' : '') + '</div></div>';
+}
+
 function renderExit(){
   var h=$('exitHead'), b=$('exitBody');
+  h.style.fontSize = st.door ? '34px' : '52px';
 
   if(st.exitView==='saved'){
     h.innerHTML="SAVED.<br>THE CURTAIN'S OPEN.";
     h.style.color='#4FD8A0'; h.style.textShadow='7px 7px 0 #14503A';
-    b.innerHTML='<p class="say dim" style="max-width:80ch">Your one-pager is on its way \u2014 your numbers, what you pay now, '
-      + 'and what it would take to give everyone access. It shouldn\'t have been this hard.</p>'
+    b.innerHTML=doorPanel()
+      + '<p class="say dim" style="max-width:80ch">Your one-pager is on its way \u2014 your numbers, what you pay now, '
+      + 'and what it would take to give everyone access.</p>'
       + '<div class="opts stack" id="exitOpts"></div>';
     tiles($('exitOpts'), [{label:'END GAME', hint:'Open the curtain'}], true, function(){ go(11); });
     prompt('PRESS 1');
@@ -698,7 +732,8 @@ function renderExit(){
     return;
   }
 
-  b.innerHTML='<p class="say dim" style="max-width:80ch">You haven\'t saved your result. It takes a second \u2014 '
+  b.innerHTML=doorPanel()
+    + '<p class="say dim" style="max-width:80ch">You haven\'t saved your result \u2014 it takes a second, '
     + 'and it\'s the bit you can forward to your boss.</p>'
     + '<div class="opts stack" id="exitOpts"></div>';
   tiles($('exitOpts'), [
@@ -795,7 +830,7 @@ function back(){
 function reset(counted){
   net.stopPoll(); net.close();
   if(counted) st.player++;
-  st.size=400; st.lit=12; st.tool='POWER BI'; st.captured=false; st.exitView='ask'; st.hist=[];
+  st.size=400; st.lit=100; st.tool='POWER BI'; st.captured=false; st.exitView='ask'; st.door=null; st.hist=[];
   go(0);
 }
 document.addEventListener('keydown', function(e){
