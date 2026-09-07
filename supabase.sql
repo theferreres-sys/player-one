@@ -54,8 +54,14 @@ create policy "anon can write only the live session"
 -- typed them. Leads are read in the Supabase table editor.
 revoke all on public.booth_sessions from anon;
 grant insert on public.booth_sessions to anon;
-grant select (id, player_no, headcount, seats, status, created_at, door)
+grant select (id, player_no, headcount, seats, status, created_at, door, tool)
   on public.booth_sessions to anon;
+
+-- Note for anyone re-running this: the booth opens a run with
+--   POST /booth_sessions?select=id
+-- The ?select=id is required. Without it PostgREST returns every column,
+-- which needs SELECT on every column — including the contact fields this
+-- role must never read — and the insert fails silently.
 grant update (headcount, seats, tool, status, name, email, role, captured_at, door, wants_demo)
   on public.booth_sessions to anon;
 
