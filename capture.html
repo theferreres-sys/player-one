@@ -88,6 +88,11 @@ button:disabled{opacity:.5}
           <input id="seats" type="number" inputmode="numeric" min="0" max="500000" placeholder="100">
         </div>
       </div>
+      <div style="margin-top:14px">
+        <label for="tool">What you use today</label>
+        <input id="tool" type="text" maxlength="60" placeholder="Power BI, Tableau, Looker…" autocomplete="off">
+        <p class="note" style="margin-top:6px">Name it and we'll send the like-for-like comparison against what you actually pay.</p>
+      </div>
     </div>
 
     <p class="err" id="err" hidden></p>
@@ -131,7 +136,7 @@ function api(path, opts){
    unambiguous — that is what makes this work without a code. */
 function findSession(){
   if(!CFG.SUPABASE_URL) return;
-  api(CFG.TABLE+'?status=eq.live&select=id,player_no,headcount,seats&order=created_at.desc&limit=1', {})
+  api(CFG.TABLE+'?status=eq.live&select=id,player_no,headcount,seats,tool&order=created_at.desc&limit=1', {})
     .then(function(r){ return r.json(); })
     .then(function(rows){
       if(!rows || !rows.length) return;
@@ -146,6 +151,7 @@ function findSession(){
       } else {
         $('resultV').textContent = 'We’ll attach your answers from the booth.';
       }
+      if(session.tool && session.tool !== 'SOMETHING ELSE') $('tool').value = session.tool;
       box.hidden = false;
     })
     .catch(function(){});
@@ -176,6 +182,8 @@ $('f').addEventListener('submit', function(e){
       st = parseInt($('seats').value, 10);
   if(hc > 0) payload.headcount = hc;
   if(st >= 0) payload.seats = st;
+  var tool = ($('tool').value || '').trim();
+  if(tool) payload.tool = tool;
   var body = JSON.stringify(payload);
 
   var req = (CFG.SUPABASE_URL && session)
