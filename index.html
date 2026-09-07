@@ -355,7 +355,11 @@ var net = (function(){
         method:'PATCH', headers:{'Prefer':'return=minimal'},
         body: JSON.stringify({ status:'abandoned' })
       }).then(function(){
-        return api(CFG.TABLE, {
+        /* ?select=id matters: without it PostgREST returns every column,
+           which needs SELECT on every column — including the contact fields
+           this key is deliberately not allowed to read. The insert then fails
+           and no run is ever recorded. */
+        return api(CFG.TABLE + '?select=id', {
           method:'POST', headers:{'Prefer':'return=representation'},
           body: JSON.stringify({ player_no: playerNo, status:'live' })
         });
