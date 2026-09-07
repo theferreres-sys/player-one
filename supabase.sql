@@ -1,5 +1,5 @@
 -- Player One — booth capture
--- Already applied to the project; kept here so the schema is reviewable
+-- Already applied to the project (player-one-booth); kept here so the schema is reviewable
 -- and reproducible. Run once in Supabase → SQL Editor → New query.
 
 create table if not exists public.booth_sessions (
@@ -9,6 +9,8 @@ create table if not exists public.booth_sessions (
   seats       int,
   tool        text,
   status      text not null default 'live',   -- live | captured | abandoned | done
+  door        text,                          -- free | comm | paid
+  wants_demo  boolean default false,
   name        text,
   email       text,
   role        text,
@@ -52,9 +54,9 @@ create policy "anon can write only the live session"
 -- typed them. Leads are read in the Supabase table editor.
 revoke all on public.booth_sessions from anon;
 grant insert on public.booth_sessions to anon;
-grant select (id, player_no, headcount, seats, status, created_at)
+grant select (id, player_no, headcount, seats, status, created_at, door)
   on public.booth_sessions to anon;
-grant update (headcount, seats, tool, status, name, email, role, captured_at)
+grant update (headcount, seats, tool, status, name, email, role, captured_at, door, wants_demo)
   on public.booth_sessions to anon;
 
 -- Your leads:

@@ -157,7 +157,7 @@ hr.rule{width:420px;height:8px;background:var(--rule);border:0}
              color:var(--violet-lt);margin-bottom:9px}
 .doorback.free .k{color:var(--green)}
 .doorback .t{font-family:var(--px);font-size:18px;line-height:1.6;color:#fff;margin-bottom:9px}
-.doorback .d{font-family:var(--mono);font-size:16px;line-height:1.55;color:var(--dim)}
+.doorback .d{font-family:var(--mono);font-size:15px;line-height:1.5;color:var(--dim)}
 .doorback .u{font-family:var(--mono);font-size:16px;color:var(--amber);margin-top:10px;word-break:break-all}
 .taprow{display:flex;gap:22px;width:100%;align-items:stretch}
 .qr{flex:0 0 150px;display:flex;flex-direction:column;align-items:center;gap:8px}
@@ -319,8 +319,8 @@ function $(id){return document.getElementById(id);}
    protects the data. See supabase.sql.
    ──────────────────────────────────────────────────────────────── */
 var CFG = {
-  SUPABASE_URL : 'https://jksvcxbguavwyoxuzhch.supabase.co',
-  SUPABASE_KEY : 'sb_publishable_0JZn5s4_hEDg-me3JExz_Q_i4iy8z07',
+  SUPABASE_URL : 'https://ahrssiytxwzoxfgorjal.supabase.co',
+  SUPABASE_KEY : 'sb_publishable_vq31HW8-bDya7zfbHq80JQ_tGcBFrvP',
   TABLE        : 'booth_sessions',
   CAPTURE_URL  : 'theferreres-sys.github.io/player-one/capture'  // shown on screen
 };
@@ -681,9 +681,9 @@ function buildDoors(){
     + locked + ' of them access tonight without paying us anything. <span class="am">What you pay us for is the AI agents</span>, so they can ask in plain English instead of learning SQL, and for not having to run it yourself.';
   var free = {label:'TAKE IT HOME FREE',    hint:'Clone it tonight \u00b7 unlimited users \u00b7 \u00a30', go:true, door:'free'};
   var comm = {label:'JOIN THE COMMUNITY',   hint:'Ask the awkward questions first',        door:'comm'};
-  var paid = {label:'HAVE US HOST IT',      hint:'We run it \u00b7 AI agents \u00b7 1-day support', door:'paid'};
+  var paid = {label:'HAVE US RUN IT',      hint:'AI agents \u00b7 we host it \u00b7 1-day support', door:'paid'};
   tiles($('doors'), st.size>500 ? [paid,free,comm] : [free,comm,paid], false,
-    function(it){ st.door = it.door; go(10); });
+    function(it){ st.door = it.door; net.answers({ door: it.door }); go(10); });
 }
 
 /* ── 9 · exit ─────────────────────────────────── */
@@ -694,8 +694,8 @@ var DOORS = {
   comm:{ cls:'',     k:'You chose \u00b7 join the community', t:'ASK US ANYTHING',
          d:'Data people in Slack and the whole codebase on GitHub. Scan and you are in \u2014 ask the questions you would rather not ask a salesperson.',
          u:'go.lightdash.com/community', qr:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNjQgMjY0IiBjbGFzcz0ic2Vnbm8iPjxnIHRyYW5zZm9ybT0ic2NhbGUoOCkiPjxwYXRoIGZpbGw9IiNlZGVhZjciIGQ9Ik0wIDBoMzN2MzNoLTMzeiIvPjxwYXRoIGNsYXNzPSJxcmxpbmUiIHN0cm9rZT0iIzBhMDcxMyIgZD0iTTIgMi41aDdtMyAwaDFtMyAwaDFtMiAwaDNtMiAwaDdtLTI5IDFoMW01IDBoMW01IDBoMW0zIDBoMW0xIDBoMW0xIDBoMW0xIDBoMW01IDBoMW0tMjkgMWgxbTEgMGgzbTEgMGgxbTQgMGgxbTIgMGgybTEgMGgxbTEgMGgxbTIgMGgxbTEgMGgzbTEgMGgxbS0yOSAxaDFtMSAwaDNtMSAwaDFtMyAwaDFtMiAwaDFtNCAwaDJtMiAwaDFtMSAwaDNtMSAwaDFtLTI5IDFoMW0xIDBoM20xIDBoMW01IDBoMW00IDBoMm0zIDBoMW0xIDBoM20xIDBoMW0tMjkgMWgxbTUgMGgxbTEgMGgybTEgMGgxbTMgMGgxbTIgMGgzbTEgMGgxbTUgMGgxbS0yOSAxaDdtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDdtLTE5IDFoMW0yIDBoMW0xIDBoNm0tMjEgMWgxbTIgMGgxbTEgMGgybTEgMGgzbTEgMGgxbTEgMGgxbTEgMGgxbTEgMGgybTEgMGgxbTEgMGgxbS0yMyAxaDJtMSAwaDJtNCAwaDFtMiAwaDFtMSAwaDFtNSAwaDJtMiAwaDFtMiAwaDFtLTI5IDFoM20zIDBoMW00IDBoMW0xIDBoMm0xIDBoMm0xIDBoMm0xIDBoMW0xIDBoNG0tMjggMWgxbTEgMGgzbTIgMGgybTMgMGgybTEgMGgxbTIgMGgzbTIgMGgybTEgMGgybS0yNyAxaDFtMSAwaDJtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDFtMSAwaDJtMSAwaDFtMSAwaDRtMiAwaDFtMSAwaDJtLTI1IDFoMW0zIDBoMW0xIDBoNW0yIDBoMW0xIDBoM20tMjIgMWgxbTQgMGg2bTEgMGgzbTEgMGgxbTEgMGgxbTEgMGg0bTEgMGg0bS0yOCAxaDJtMSAwaDFtMiAwaDFtMiAwaDFtMSAwaDFtMiAwaDRtMyAwaDFtMSAwaDJtMSAwaDFtLTI4IDFoMm0yIDBoMW0xIDBoMm0yIDBoMW0xIDBoMm0yIDBoMm0xIDBoMW0xIDBoMW01IDBoMW0tMjYgMWgybTEgMGgxbTMgMGgxbTMgMGgybTEgMGgybTMgMGgybTIgMGgxbTIgMGgxbS0yOSAxaDFtMSAwaDFtMSAwaDFtMSAwaDNtMyAwaDFtMSAwaDFtMiAwaDFtNSAwaDFtMyAwaDJtLTI1IDFoMm0xIDBoMW0xIDBoMW0yIDBoMW0xIDBoNW0yIDBoMm0xIDBoMW0yIDBoMm0tMjkgMWgxbTEgMGgybTEgMGgybTIgMGg0bTIgMGgybTMgMGg1bTEgMGgxbS0xOSAxaDVtMSAwaDFtMSAwaDFtMiAwaDJtMyAwaDFtMSAwaDNtLTI5IDFoN20zIDBoMW0xIDBoMW03IDBoMW0xIDBoMW0xIDBoMW0yIDBoMW0tMjggMWgxbTUgMGgxbTEgMGgzbTMgMGgxbTEgMGgxbTEgMGgxbTEgMGgxbTMgMGg1bS0yOSAxaDFtMSAwaDNtMSAwaDFtMiAwaDJtMSAwaDFtMiAwaDNtMiAwaDVtMyAwaDFtLTI5IDFoMW0xIDBoM20xIDBoMW0xIDBoMW0xIDBoNG04IDBoNm0tMjggMWgxbTEgMGgzbTEgMGgxbTIgMGgxbTMgMGgybTIgMGgxbTEgMGgxbTEgMGgxbTIgMGgzbTEgMGgxbS0yOSAxaDFtNSAwaDFtMiAwaDJtMSAwaDltMyAwaDFtMiAwaDFtLTI4IDFoN20xIDBoM20zIDBoMW0xIDBoMm0yIDBoMW0yIDBoM20xIDBoMSIvPjwvZz48L3N2Zz4K' },
-  paid:{ cls:'',     k:'You chose \u00b7 have us host it', t:'WE WILL COME TO YOU',
-         d:'Fifteen minutes with someone technical, not a pitch. Leave your email below and it lands with your own numbers already in it \u2014 no form to fill in twice.',
+  paid:{ cls:'',     k:'You chose \u00b7 have us run it', t:'WE WILL COME TO YOU',
+         d:'Leave your email and you get both reports \u2014 yours now, the benchmark when the show closes \u2014 plus twenty minutes with someone technical on the hosted version. Not a pitch: your own numbers, live.',
          u:'', qr:'' }
 };
 function doorPanel(){
@@ -708,7 +708,7 @@ function doorPanel(){
 
 function renderExit(){
   var h=$('exitHead'), b=$('exitBody');
-  h.style.fontSize = st.door ? '34px' : '52px';
+  h.style.fontSize = st.door === 'paid' ? '24px' : (st.door ? '34px' : '52px');
 
   if(st.exitView==='saved'){
     h.innerHTML="SAVED.<br>THE CURTAIN'S OPEN.";
@@ -732,18 +732,27 @@ function renderExit(){
     return;
   }
 
+  var paid = st.door === 'paid';
   b.innerHTML=doorPanel()
-    + '<p class="say dim" style="max-width:80ch">You haven\'t saved your result \u2014 it takes a second, '
-    + 'and it\'s the bit you can forward to your boss.</p>'
+    + (paid ? '' : '<p class="say dim" style="max-width:84ch">You haven\'t saved your result \u2014 '
+        + 'it takes a second, and it\'s the bit you can forward to your boss.</p>')
     + '<div class="opts stack" id="exitOpts"></div>';
-  tiles($('exitOpts'), [
-    {label:'SEND IT TO MY EMAIL', hint:'Tap your phone or type it \u00b7 nothing else asked', go:true},
-    {label:'END GAME',            hint:'Leave without saving'}
-  ], true, function(it,i){
+  tiles($('exitOpts'), paid
+    ? [{label:'SEND IT AND BOOK ME IN', hint:'Both reports \u00b7 plus twenty minutes on the hosted version', go:true},
+       {label:'JUST SEND THE REPORTS',  hint:'No call \u00b7 nothing else asked'},
+       {label:'END GAME',               hint:'Leave without saving'}]
+    : [{label:'SEND IT TO MY EMAIL', hint:'Tap your phone or type it \u00b7 nothing else asked', go:true},
+       {label:'END GAME',            hint:'Leave without saving'}],
+  true, function(it,i){
+    if(paid){
+      if(i===2){ go(11); return; }
+      net.answers({ wants_demo: i===0 });
+      st.exitView='form'; renderExit(); return;
+    }
     if(i===0){ st.exitView='form'; renderExit(); }
     else go(11);
   });
-  prompt('PRESS 1 OR 2');
+  prompt(paid ? 'PRESS 1 / 2 / 3' : 'PRESS 1 OR 2');
 }
 
 /* ── 10 · game over ───────────────────────────── */
